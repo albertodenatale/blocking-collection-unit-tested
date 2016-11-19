@@ -1,0 +1,113 @@
+﻿using System;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+
+namespace UnitTestProject1
+{
+    [TestClass]
+    public class UnitTest1
+    {
+        public Mock<IProducerConsumerCollection<int>> Collection { get; set; }
+
+        [TestInitialize]
+        public void Init()
+        {
+            Collection = new Mock<IProducerConsumerCollection<int>>();
+        }
+
+        [TestMethod]
+        public void Should_Check_The_Initial_Count()
+        {
+            // Arrange
+            Collection.Setup(x => x.Count).Returns(3).Verifiable();
+
+            // Act
+            new BlockingCollection<int>(Collection.Object, 3);
+
+            // Assert
+            Collection.VerifyAll();
+        }
+
+        [TestMethod]
+        public void Should_Check_For_Consistency()
+        {
+            // Arrange
+            Collection.Setup(x => x.Count).Returns(5).Verifiable();
+
+            // Act
+            Action a = () => new BlockingCollection<int>(Collection.Object, 3);
+
+            // Assert
+            a.ShouldThrow<System.ArgumentException>();
+        }
+
+        [TestMethod]
+        public void Should_Bound()
+        {
+            // Arrange
+            Collection.Setup(x => x.Count).Returns(0).Verifiable();
+            Collection.Setup(x => x.TryAdd(It.IsAny<int>()))
+                      .Returns(true).Verifiable();
+            var blocking = new BlockingCollection<int>(Collection.Object, 3);
+
+            // Act
+            blocking.Add(1);
+            blocking.Add(2);
+
+            var beforeBounding = blocking.TryAdd(3, 0);
+            var afterBounding = blocking.TryAdd(4, 0);
+
+            // Assert
+            beforeBounding.Should().Be(true);
+            afterBounding.Should().Be(false);
+        }
+
+        [TestMethod]
+        public void Should_Block()
+        {
+            // Arrange
+            int output = 0;
+            Collection.Setup(x => x.Count).Returns(3).Verifiable();
+            Collection.Setup(x => x.TryTake(out output))
+                      .Returns(true).Verifiable();
+            var blocking = new BlockingCollection<int>(Collection.Object);
+
+            // Act
+            blocking.Take();
+            blocking.Take();
+            var beforeBlocking = blocking.TryTake(out output, 0);
+            var afterBlocking = blocking.TryTake(out output, 0);
+
+            // Assert
+            beforeBlocking.Should().Be(true);
+            afterBlocking.Should().Be(false);
+        }
+
+        [TestMethod]
+        public void Should_Timeout_Only_On_Blocks_Or_Bounds()
+        {
+            // Arrange
+            Collection.Setup(x => x.Count).Returns(0).Verifiable();
+            Collection.Setup(x => x.TryAdd(It.IsAny<int>()))
+                      .Callback(() => Task.Delay(1000).Wait())
+                      .Returns(true)
+                      .Verifiable();
+            var blocking = new BlockingCollection<int>(Collection.Object, 3);
+
+            // Act
+            var isAdded = blocking.TryAdd(1, 0);
+
+            // Assert
+            isAdded.Should().Be(true);
+        }
+
+        [TestMethod]
+        public void Should_Throw_An_Exception_If_Accessed_After_Cancellation()
+        {
+
+        }
+    }
+}

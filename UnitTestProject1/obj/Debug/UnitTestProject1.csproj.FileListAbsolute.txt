@@ -1,0 +1,16 @@
+C:\projects\Application\ConsoleApp1\UnitTestProject1\bin\Debug\UnitTestProject1.dll
+C:\projects\Application\ConsoleApp1\UnitTestProject1\bin\Debug\UnitTestProject1.pdb
+C:\projects\Application\ConsoleApp1\UnitTestProject1\bin\Debug\Castle.Core.dll
+C:\projects\Application\ConsoleApp1\UnitTestProject1\bin\Debug\FluentAssertions.Core.dll
+C:\projects\Application\ConsoleApp1\UnitTestProject1\bin\Debug\FluentAssertions.dll
+C:\projects\Application\ConsoleApp1\UnitTestProject1\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\projects\Application\ConsoleApp1\UnitTestProject1\bin\Debug\Moq.dll
+C:\projects\Application\ConsoleApp1\UnitTestProject1\bin\Debug\Castle.Core.xml
+C:\projects\Application\ConsoleApp1\UnitTestProject1\bin\Debug\FluentAssertions.pdb
+C:\projects\Application\ConsoleApp1\UnitTestProject1\bin\Debug\FluentAssertions.xml
+C:\projects\Application\ConsoleApp1\UnitTestProject1\bin\Debug\FluentAssertions.Core.pdb
+C:\projects\Application\ConsoleApp1\UnitTestProject1\bin\Debug\FluentAssertions.Core.xml
+C:\projects\Application\ConsoleApp1\UnitTestProject1\bin\Debug\Moq.xml
+C:\projects\Application\ConsoleApp1\UnitTestProject1\obj\Debug\UnitTestProject1.csprojResolveAssemblyReference.cache
+C:\projects\Application\ConsoleApp1\UnitTestProject1\obj\Debug\UnitTestProject1.dll
+C:\projects\Application\ConsoleApp1\UnitTestProject1\obj\Debug\UnitTestProject1.pdb
